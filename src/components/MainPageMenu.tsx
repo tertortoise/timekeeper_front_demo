@@ -42,7 +42,6 @@ export const MainPageMenu: React.FC<MainPageMenuProps> = (
     sectionsToRender,
   }) => {
   const classes = useStyles();
-  console.log(sectionsToRender)
   return (
     <>
       {
