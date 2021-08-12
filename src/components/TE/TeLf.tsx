@@ -239,240 +239,241 @@ const TeLf = ({ teLfCfg: { prefix: prefixCfg, tsu: tsuCfg, dscr: dscrCfg, start:
     if (prefixCfg.status === CtrlUiStatus.CTRL_ENABLED) {
       return <div className={clsx(classes.flexBlock, classes.containerButtons)} >
         {isOpen
-        ? <button className={clsx(classes.buttonStyles, classes.staticEditable)}><ExpandMoreIcon color="primary" /></button>
-        : <button className={clsx(classes.buttonStyles, classes.staticEditable)}><ChevronRightIcon color="primary" /></button>}
+          ? <button className={clsx(classes.buttonStyles, classes.staticEditable)}><ExpandMoreIcon color="primary" /></button>
+          : <button className={clsx(classes.buttonStyles, classes.staticEditable)}><ChevronRightIcon color="primary" /></button>}
       </div>
-      
+
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefixCfg, isOpen])
 
-const tsuCtrl = useMemo(() => {
-  const { status, tsuId, tsuOptions, tsuInputValue, tsuGetOptionLabel } = tsuCfg;
-  let entityInfoTsuInputValue: string = '';
-  if (entityInfo.teLfEntityType === 'teTimeSlice' || entityInfo.teLfEntityType === 'teTaskGroup') {
-    entityInfoTsuInputValue = entityInfo.tsuInputValue;
-  }
-  if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
-    return <div
-      className={clsx({ [classes.staticEditableNoValue]: !entityInfoTsuInputValue })}
-    >{entityInfoTsuInputValue ? entityInfoTsuInputValue : 'No description'}</div>;
-  }
-  if (status === CtrlUiStatus.STATIC_EDITABLE) {
-    return <div
-      className={clsx(classes.staticEditable, { [classes.staticEditableNoValue]: !entityInfoTsuInputValue })}
-      onClick={(e) => toggleCtrlHandler('tsu', CtrlUiStatus.CTRL_ENABLED)}
-    >{entityInfoTsuInputValue ? entityInfoTsuInputValue : 'No task selected'}</div>;
-  }
-  if (status === CtrlUiStatus.CTRL_ENABLED) {
-    return <Autocomplete
-      openOnFocus
-      value={tsuId}
-      onChange={tsuValueChangeHandler}
-      inputValue={tsuInputValue}
-      onInputChange={tsuInputChangeHandler}
-      onClose={() => toggleCtrlHandler('tsu', CtrlUiStatus.STATIC_EDITABLE)}
-      options={tsuOptions}
-      getOptionLabel={tsuGetOptionLabel}
-      noOptionsText="No tasks created"
-      blurOnSelect
-      selectOnFocus
-      // groupBy={({category}) => category.name}
-      renderInput={(params: any) => (
-        <TextField
-          {...params}
-          autoFocus
-          placeholder="No task selected"
-          size="small"
-        />
-      )}
-    />
-  }
-  //default case for OFF status
-  return undefined;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [tsuCfg, entityInfo])
+  const tsuCtrl = useMemo(() => {
+    const { status, tsuId, tsuOptions, tsuInputValue, tsuGetOptionLabel } = tsuCfg;
+    let entityInfoTsuInputValue: string = '';
+    if (entityInfo.teLfEntityType === 'teTimeSlice' || entityInfo.teLfEntityType === 'teTaskGroup') {
+      entityInfoTsuInputValue = entityInfo.tsuInputValue;
+    }
+    if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
+      return <div
+        className={clsx({ [classes.staticEditableNoValue]: !entityInfoTsuInputValue })}
+      >{entityInfoTsuInputValue ? entityInfoTsuInputValue : 'No description'}</div>;
+    }
+    if (status === CtrlUiStatus.STATIC_EDITABLE) {
+      return <div
+        className={clsx(classes.staticEditable, { [classes.staticEditableNoValue]: !entityInfoTsuInputValue })}
+        onClick={(e) => toggleCtrlHandler('tsu', CtrlUiStatus.CTRL_ENABLED)}
+      >{entityInfoTsuInputValue ? entityInfoTsuInputValue : 'No task selected'}</div>;
+    }
+    if (status === CtrlUiStatus.CTRL_ENABLED) {
+      return <Autocomplete
+        openOnFocus
+        value={tsuId}
+        onChange={tsuValueChangeHandler}
+        inputValue={tsuInputValue}
+        onInputChange={tsuInputChangeHandler}
+        onClose={() => toggleCtrlHandler('tsu', CtrlUiStatus.STATIC_EDITABLE)}
+        options={tsuOptions}
+        getOptionLabel={tsuGetOptionLabel}
+        noOptionsText="No tasks created"
+        blurOnSelect
+        selectOnFocus
+        // groupBy={({category}) => category.name}
+        renderInput={(params: any) => (
+          <TextField
+            {...params}
+            autoFocus
+            placeholder="No task selected"
+            size="small"
+          />
+        )}
+      />
+    }
+    //default case for OFF status
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tsuCfg, entityInfo])
 
-const dscrCtrl = useMemo(() => {
-  const { status, currentValue } = dscrCfg;
-  if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
-    return <div
-      className={clsx(classes.textEllipsis, { [classes.staticEditableNoValue]: !currentValue })}
-    >{currentValue ? currentValue : 'No description'}</div>;
-  }
-  if (status === CtrlUiStatus.STATIC_EDITABLE) {
-    return <div
-      className={clsx(classes.textEllipsis, classes.staticEditable, { [classes.staticEditableNoValue]: !currentValue })}
-      onClick={() => toggleCtrlHandler('dscr', CtrlUiStatus.CTRL_ENABLED)}
-    >{currentValue ? currentValue : 'No description'}</div>;
-  }
-  if (status === CtrlUiStatus.CTRL_ENABLED) {
-    return <TextField
-      fullWidth
-      autoFocus
-      value={currentValue}
-      inputProps={{maxLength: 200}}
-      onChange={dscrValueChangeHandler}
-      onBlur={dscrBlurHandler}
-      placeholder="No description"
-      size="small"
-    />
-  }
-  //default case for OFF status
-  return undefined;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [dscrCfg, entityInfo])
+  const dscrCtrl = useMemo(() => {
+    const { status, currentValue } = dscrCfg;
+    if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
+      return <div
+        className={clsx(classes.textEllipsis, { [classes.staticEditableNoValue]: !currentValue })}
+      >{currentValue ? currentValue : 'No description'}</div>;
+    }
+    if (status === CtrlUiStatus.STATIC_EDITABLE) {
+      return <div
+        className={clsx(classes.textEllipsis, classes.staticEditable, { [classes.staticEditableNoValue]: !currentValue })}
+        onClick={() => toggleCtrlHandler('dscr', CtrlUiStatus.CTRL_ENABLED)}
+      >{currentValue ? currentValue : 'No description'}</div>;
+    }
+    if (status === CtrlUiStatus.CTRL_ENABLED) {
+      return <TextField
+        fullWidth
+        autoFocus
+        value={currentValue}
+        inputProps={{ maxLength: 200 }}
+        onChange={dscrValueChangeHandler}
+        onBlur={dscrBlurHandler}
+        placeholder="No description"
+        size="small"
+      />
+    }
+    //default case for OFF status
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dscrCfg, entityInfo])
 
-const startDateCtrl = useMemo(() => {
-  const { status, sliceStartDate, maxDate } = startDateCfg;
-  const startTimeString = format(sliceStartDate, dateCtrlFormat);
-  // const startTimeString = sliceStartDate.toLocaleTimeString([], {hourCycle: 'h23'});
-  if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
-    return <div className={clsx(classes.textEllipsis)}>{startTimeString}</div>;
-  }
-  if (status === CtrlUiStatus.STATIC_EDITABLE) {
-    return <div
-      className={clsx(classes.textEllipsis, classes.staticEditable)}
-      onClick={(e) => toggleCtrlHandler('start', CtrlUiStatus.CTRL_ENABLED)}
-    >{startTimeString}</div>;
-  }
-  if (status === CtrlUiStatus.CTRL_ENABLED) {
-    return <DateTimePicker
-      ampm={false}
-      margin="normal"
-      value={sliceStartDate}
-      format={dateCtrlFormat}
-      maxDate={maxDate}
-      open
-      autoFocus
-      onChange={changeHandlerStartDate}
-      onClose={() => toggleCtrlHandler('start', CtrlUiStatus.STATIC_EDITABLE)}
-      strictCompareDates
-      TextFieldComponent={(params) =>
-        <TextField
-          className={clsx(classes.inputAdornment)}
-          {...params}
-          size="small"
-          margin="none"
-        />}
-    />
-  }
-  //default case for OFF status
-  return undefined;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [startDateCfg, entityInfo])
+  const startDateCtrl = useMemo(() => {
+    const { status, sliceStartDate, maxDate } = startDateCfg;
+    const startTimeString = format(sliceStartDate, dateCtrlFormat);
+    // const startTimeString = sliceStartDate.toLocaleTimeString([], {hourCycle: 'h23'});
+    if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
+      return <div className={clsx(classes.textEllipsis)}>{startTimeString}</div>;
+    }
+    if (status === CtrlUiStatus.STATIC_EDITABLE) {
+      return <div
+        className={clsx(classes.textEllipsis, classes.staticEditable)}
+        onClick={(e) => toggleCtrlHandler('start', CtrlUiStatus.CTRL_ENABLED)}
+      >{startTimeString}</div>;
+    }
+    if (status === CtrlUiStatus.CTRL_ENABLED) {
+      return <DateTimePicker
+        ampm={false}
+        margin="normal"
+        value={sliceStartDate}
+        format={dateCtrlFormat}
+        maxDate={maxDate}
+        open
+        autoFocus
+        onChange={changeHandlerStartDate}
+        onClose={() => toggleCtrlHandler('start', CtrlUiStatus.STATIC_EDITABLE)}
+        strictCompareDates
+        TextFieldComponent={(params) =>
+          <TextField
+            className={clsx(classes.inputAdornment)}
+            {...params}
+            size="small"
+            margin="none"
+          />}
+      />
+    }
+    //default case for OFF status
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDateCfg, entityInfo])
 
-const endDateCtrl = useMemo(() => {
-  const { status, sliceEndDate, minDate } = endDateCfg;
-  const endTimeString = format(sliceEndDate, dateCtrlFormat);
-  // const startTimeString = sliceStartDate.toLocaleTimeString([], {hourCycle: 'h23'});
-  if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
-    return <div className={clsx(classes.textEllipsis)}>{endTimeString}</div>;
-  }
-  if (status === CtrlUiStatus.STATIC_EDITABLE) {
-    return <div
-      className={clsx(classes.textEllipsis, classes.staticEditable)}
-      onClick={(e) => toggleCtrlHandler('end', CtrlUiStatus.CTRL_ENABLED)}
-    >{endTimeString}</div>;
-  }
-  if (status === CtrlUiStatus.CTRL_ENABLED) {
-    return <DateTimePicker
-      ampm={false}
-      margin="normal"
-      value={sliceEndDate}
-      format={dateCtrlFormat}
-      minDate={minDate}
-      open
-      autoFocus
-      onChange={changeHandlerEndDate}
-      onClose={() => toggleCtrlHandler('end', CtrlUiStatus.STATIC_EDITABLE)}
-      strictCompareDates
-      TextFieldComponent={(params) =>
-        <TextField
-          className={clsx(classes.inputAdornment)}
-          {...params}
-          size="small"
-          margin="none"
-        />}
-    />
-  }
-  //default case for OFF status
-  return undefined;
-  
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [endDateCfg, entityInfo])
+  const endDateCtrl = useMemo(() => {
+    const { status, sliceEndDate, minDate } = endDateCfg;
+    const endTimeString = format(sliceEndDate, dateCtrlFormat);
+    // const startTimeString = sliceStartDate.toLocaleTimeString([], {hourCycle: 'h23'});
+    if (status === CtrlUiStatus.STATIC_NONEDITABLE) {
+      return <div className={clsx(classes.textEllipsis)}>{endTimeString}</div>;
+    }
+    if (status === CtrlUiStatus.STATIC_EDITABLE) {
+      return <div
+        className={clsx(classes.textEllipsis, classes.staticEditable)}
+        onClick={(e) => toggleCtrlHandler('end', CtrlUiStatus.CTRL_ENABLED)}
+      >{endTimeString}</div>;
+    }
+    if (status === CtrlUiStatus.CTRL_ENABLED) {
+      return <DateTimePicker
+        ampm={false}
+        margin="normal"
+        value={sliceEndDate}
+        format={dateCtrlFormat}
+        minDate={minDate}
+        open
+        autoFocus
+        onChange={changeHandlerEndDate}
+        onClose={() => toggleCtrlHandler('end', CtrlUiStatus.STATIC_EDITABLE)}
+        strictCompareDates
+        TextFieldComponent={(params) =>
+          <TextField
+            className={clsx(classes.inputAdornment)}
+            {...params}
+            size="small"
+            margin="none"
+          />}
+      />
+    }
+    //default case for OFF status
+    return undefined;
 
-const duplicateTeBtn = useMemo(() => {
-  return <span key="duplicateTeBtn" onClick={duplicateTeHandler}>Duplicate existing time entry</span>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [entityInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endDateCfg, entityInfo])
 
-const newTeaBtn = useMemo(() => {
-  return <span key="newTeaBtn" onClick={createTeaHandler}>Start new timer</span>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [entityInfo]);
+  const duplicateTeBtn = useMemo(() => {
+    return <span key="duplicateTeBtn" onClick={duplicateTeHandler}>Duplicate existing time entry</span>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityInfo]);
 
-const deleteTeBtn = useMemo(() => {
-  return <span key="deleteTeBtn" onClick={deleteTeHandler}>Delete time entry</span>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [entityInfo]);
+  const newTeaBtn = useMemo(() => {
+    return <span key="newTeaBtn" onClick={createTeaHandler}>Start new timer</span>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityInfo]);
 
-const menuButtonItems = useMemo(() => {
-  if (entityInfo.teLfEntityType === 'teTimeSlice') {
-    return [newTeaBtn, duplicateTeBtn, deleteTeBtn];
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [entityInfo])
+  const deleteTeBtn = useMemo(() => {
+    return <span key="deleteTeBtn" onClick={deleteTeHandler}>Delete time entry</span>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityInfo]);
 
-return (
-  <div
-    onClick={foldHandler}
-    className={clsx(classes.lfContainer, { [classes.lfContainerTaskGroup]: isTaskGroup })}
-  >
-    <Grid
-      container
-      spacing={1}
-      className={clsx({ [classes.loading]: fetchStatus.loading })}>
-      <Grid item xs={12} md={4} className={clsx(classes.flexBlock, classes.taskGroup)}>
-        {prefixCtrl}
-        {tsuCtrl}
-      </Grid>
-      <Grid item xs={12} md={3} lg={4} className={clsx(classes.flexBlock, { [classes.dscrContainerTaskGroup]: isTaskGroup })}>
-        {!isTaskGroup
-          ? dscrCtrl
-          : isOpen
-            ? <div className={clsx(classes.textEllipsis, classes.hiddenTecsText)}>{prefixCfg.textValue} time entries are in this task group</div>
-            : <div className={clsx(classes.textEllipsis, classes.hiddenTecsText)}>{prefixCfg.textValue} time entries are hidden</div>
-        }
-        { }
-      </Grid>
-      <Grid item xs={9} md={4} lg={3} className={clsx(classes.flexBlock, classes.timeGroup)}>
-        {startDateCtrl}
-        {endDateCtrl}
-        <div className={clsx(classes.displayDiv, classes.displayDivCenterBold)}>
-          {isTaskGroup
+  const menuButtonItems = useMemo(() => {
+    if (entityInfo.teLfEntityType === 'teTimeSlice') {
+      return [newTeaBtn, duplicateTeBtn, deleteTeBtn];
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityInfo])
+
+  return (
+    <div
+      onClick={foldHandler}
+      className={clsx(classes.lfContainer, { [classes.lfContainerTaskGroup]: isTaskGroup })}
+    >
+      <Grid
+        container
+        spacing={1}
+        className={clsx({ [classes.loading]: fetchStatus.loading })}>
+        <Grid item xs={12} md={4} className={clsx(classes.flexBlock, classes.taskGroup)}>
+          {prefixCtrl}
+          {tsuCtrl}
+        </Grid>
+        <Grid item xs={12} md={3} lg={4} className={clsx(classes.flexBlock, { [classes.dscrContainerTaskGroup]: isTaskGroup })}>
+          {!isTaskGroup
+            ? dscrCtrl
+            : isOpen
+              ? <div className={clsx(classes.textEllipsis, classes.hiddenTecsText)}>{prefixCfg.textValue} time entries are in this task group</div>
+              : <div className={clsx(classes.textEllipsis, classes.hiddenTecsText)}>{prefixCfg.textValue} time entries are hidden</div>
+          }
+          { }
+        </Grid>
+        <Grid item xs={9} md={4} lg={3} className={clsx(classes.flexBlock, classes.timeGroup)}>
+          {startDateCtrl}
+          {endDateCtrl}
+          <div className={clsx(classes.displayDiv, classes.displayDivCenterBold)}>
+            {getTimeDurationString(entityInfo.durationMS)}
+            {/* {isTaskGroup
             ? getTimeDurationString(endDateCfg.sliceEndMS - startDateCfg.sliceStartMS)
             : getTimeDurationString(entityInfo.durationMS)
+          } */}
+          </div>
+        </Grid>
+        <Grid item xs={3} md={1} className={clsx(classes.flexBlock, classes.containerButtons)}>
+          {!isTaskGroup
+            ? <MenuButton
+              disabled={fetchStatus.editing || !!fetchStatus.loading}
+            >
+              {menuButtonItems}
+            </MenuButton>
+            : <button
+              className={clsx(classes.buttonStyles, classes.staticEditable)}
+            >
+              {prefixCfg.textValue}
+            </button>
           }
-        </div>
+        </Grid>
       </Grid>
-      <Grid item xs={3} md={1} className={clsx(classes.flexBlock, classes.containerButtons)}>
-        {!isTaskGroup
-          ? <MenuButton
-            disabled={fetchStatus.editing || !!fetchStatus.loading}
-          >
-            {menuButtonItems}
-          </MenuButton>
-          : <button
-            className={clsx(classes.buttonStyles, classes.staticEditable)}
-          >
-            {prefixCfg.textValue}
-          </button>
-        }
-      </Grid>
-    </Grid>
-  </div>
-)
+    </div>
+  )
 }
 
 const propsAreEqual = (prevProps: PropsTeLf, nextProps: PropsTeLf): boolean => {

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 // import {ReactComponent as TimeKeeperIcon} from '../assets/time-keeper-icon.svg';
-import readmeURL from '../assets/Readme.md';
+// import readmeURL from '../assets/Readme.md';
 
 // const useStyles = makeStyles((theme: Theme) => {
 //   return createStyles({
@@ -22,7 +22,8 @@ const getReadme = (() => {
       return readmeCache;
     } else {
       try {
-        const readmeText = await fetch(readmeURL).then(response => response.text());
+        // const readmeText = await fetch(readmeURL).then(response => response.text());
+        const readmeText = await fetch('https://raw.githubusercontent.com/tertortoise/timekeeper_front_demo/master/README.md').then(response => response.text());
         readmeCache = readmeText;
         return readmeCache;
       } catch (e) {
@@ -44,13 +45,9 @@ export default function AppInfo() {
     
   }, [readme])
 
-  console.log('[APPINFO][RENDER]', readme.slice(0, 10))
-
-
-
   return (
     <div>
-      Below is information from Readme.md file in source repo
+      Below is information from Readme.md file <a href="https://github.com/tertortoise/timekeeper_front_demo">in source repo</a>
       <ReactMarkdown disallowedElements={['a']}>{readme}</ReactMarkdown>
     </div>
   )

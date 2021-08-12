@@ -32,7 +32,6 @@ const Stopwatch: React.FC<StopwatchProps> = (
       setTimeElapsed(Date.now() - startTime);
       timerId.current &&  clearInterval(timerId.current);
       timerId.current = setInterval(() => {
-        // console.log(startTime)
         setTimeElapsed(Date.now() - startTime)
       }, 1000)
     }

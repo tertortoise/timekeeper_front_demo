@@ -36,8 +36,8 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "cp Readme.md src/assets/Reame.md && react-scripts start",
-    "build": "cp Readme.md src/assets/Reame.md && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "copyInfo": "cp ./Readme.md ./src/assets/Readme.md"
